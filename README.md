@@ -19,18 +19,24 @@ Instalação
 
 Importe o arquivo com as funções no início do seu script:
 
-<pre>
+```
 #!/bin/bash
 
 curl -skL https://raw.githubusercontent.com/renanpessoa/cPanel_Functions/master/functions.sh > /tmp/funcoes_externas.sh
 [[ -z `cat /tmp/funcoes_externas.sh | grep Teste_Valida` ]] && { echo -e "Não foi possível importar as funções externas.";exit;}
 source /tmp/funcoes_externas.sh && rm -fr /tmp/funcoes_externas.sh;
-</pre>
+```
 
 Pronto, você já pode utilizar as funções disponíveis !
 
-Documentação
+Documentacão
 -------------
 
-https://renanpessoa.github.io/
+<https://renanpessoa.github.io/>
 
+Funções
+-------------
+**func_valida_dominio** - Valida o domínio informado
+**func_valida_usuario **- Valida o usuário informado
+**func_valida_revendedor** - Valida o revendedor informado
+**func_citacao_aleatoria** - Exibe uma citação aleatória
