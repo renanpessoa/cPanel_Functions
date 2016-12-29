@@ -1,21 +1,19 @@
-Funções cPanel
-===============
+# Funções cPanel
 
-Sobre
------
+
+## Sobre
 
 Funções bash para aumentar a produtividade e segurança ao desenvolver scripts para ambientes cPanel, basta importar as funções no ínicio do seu script e pronto, basta utilizar ! 
 
 Ao utilizar funções prontas e testadas você aumenta a sua produtividade pois pode focar no seu objetivo sem perder tempo escrevendo código para validar domínios, se a conta cPanel existe.... Além de deixar o código mais limpo e enxuto.
 
-Requerimentos
-------------
+## Requerimentos
+
 
 + CentOS ou CloudLinux
 + cPanel
 
-Instalação
-------------
+## Instalação
 
 Importe o arquivo com as funções no início do seu script:
 
@@ -29,17 +27,17 @@ source /tmp/funcoes_externas.sh && rm -fr /tmp/funcoes_externas.sh;
 
 Pronto, você já pode utilizar as funções disponíveis !
 
-Documentacão
--------------
+## Documentacão
+
 
 <https://renanpessoa.github.io/>
 
-Funções
--------------
+#  Funções
 
-* Validação
-+ **func_valida_dominio** - Valida o domínio informado
-+ **func_valida_usuario **- Valida o usuário informado
-+ **func_valida_revendedor** - Valida o revendedor informado
-* Outros
-+ **func_citacao_aleatoria** - Exibe uma citação aleatória
+
+  * **Validação**
+  + func_valida_dominio - Valida o domínio informado
+  + func_valida_usuario- Valida o usuário informado
+  + func_valida_revendedor - Valida o revendedor informado
+  * **Outros**
+  + func_citacao_aleatoria - Exibe uma citação aleatória
