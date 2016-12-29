@@ -22,7 +22,7 @@ Importe o arquivo com as funções no início do seu script:
 <pre>
 #!/bin/bash
 
-curl -skL $LINK > /tmp/funcoes_externas.sh
+curl -skL https://raw.githubusercontent.com/renanpessoa/cPanel_Functions/master/functions.sh > /tmp/funcoes_externas.sh
 [[ -z `cat /tmp/funcoes_externas.sh | grep Teste_Valida` ]] && { echo -e "Não foi possível importar as funções externas.";exit;}
 source /tmp/funcoes_externas.sh && rm -fr /tmp/funcoes_externas.sh;
 </pre>
