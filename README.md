@@ -34,10 +34,9 @@ Pronto, você já pode utilizar as funções disponíveis !
 
 ##  Funções
 
-
   * **Validação**
     + func_valida_dominio - Valida o domínio informado
-    + func_valida_usuario- Valida o usuário informado
+    + func_valida_usuario - Valida o usuário informado
     + func_valida_revendedor - Valida o revendedor informado
   * **Outros**
     + func_citacao_aleatoria - Exibe uma citação aleatória
