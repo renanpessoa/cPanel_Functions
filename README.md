@@ -41,6 +41,8 @@ Pronto, você já pode utilizar as funções disponíveis !
     
   * **Informação**
     + func_usuario_info - Exibe diversas informações sobre a conta
+    
+    + func_usuario_tamanho - Exibe o tamanho da conta de maneira instântanea (utiliza o cache do servidor)
    
     
   * **Outros**
