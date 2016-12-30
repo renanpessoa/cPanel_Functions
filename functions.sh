@@ -144,8 +144,8 @@ func_usuario_tamanho()
 	    return 1;
     fi 
 
-    #. Salva o espaço em disco da conta a partir do cache .#
-    quota_usuario=$(quota -s $usuario 2> /dev/null | awk 'NR==3' | awk '{print $2}');
+    #. Salva o espaço em disco da conta a partir do cache utilizando a API do WHM .#
+    quota_usuario=$(whmapi1 accountsummary user=$usuario | grep diskused | cut -d":" -f2 | awk '{print $1}' | grep -v none);
 
     #. Se o cache da conta existir é exibido .#
     if [[ ! -z $quota_usuario ]]; then
