@@ -122,3 +122,38 @@ func_citacao_aleatoria()
     #. A frase é exibida .#
     echo -e "$frase"
 }
+
+
+func_usuario_tamanho()
+{
+
+    usuario=$1
+    
+    #. Remove barra do final do usuário, se for digitado: $usuario/ .#
+    usuario=$(echo "$usuario" | sed 's/\/$//')
+
+    #. Se não for passado nenhum parâmetro .#
+    if [[ -z "$usuario" ]];then
+	    echo -e "Utilização: func_usuario_tamanho usuario";
+	    return 1
+    fi
+
+    #. Se o diretório da conta não existir .#
+    if [[ ! -e /home/$usuario ]];then
+	    echo -e "O usuário informado não existe.";
+	    return 1;
+    fi 
+
+    #. Salva o espaço em disco da conta a partir do cache .#
+    quota_usuario=$(quota -s $usuario 2> /dev/null | awk 'NR==3' | awk '{print $2}');
+
+    #. Se o cache da conta existir é exibido .#
+    if [[ ! -z $quota_usuario ]]; then
+	
+	    echo -e "$quota_usuario  $usuario" | sed 's/\*//';
+    else 
+	    #. Se não existir cache é calculado o tamanho da conta .#
+	    du -sh /home/$usuario;
+    fi
+
+}
