@@ -232,7 +232,7 @@ func_usuario_tamanho()
         #. Se o cache da conta existir é exibido .#
         if [[ ! -z $quota_usuario ]]; then
   
-            echo -e "$quota_usuario  $usuario" | sed 's/\*//';
+            echo -e "$quota_usuario\t/home/"$usuario"" | sed 's/\*//';
         else 
             #. Se não existir cache é calculado o tamanho da conta .#
             du -sm /home/"$usuario" | awk '{printf "%sM\t%s\n",$1,$2}'
