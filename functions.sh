@@ -7,29 +7,57 @@ R1="\e[31m"; # Vermelho claro
 R2="\E[1;31m"; # Vermelho escuro
 Y1="\e[1;33m"; # Amarelo
 G1="\e[1;32m" ; # Verde escuro
-G2="\e[90m"; # Verde claro
+G2="\e[90m"; # Cinza
 B1="\e[1m \e[34m"; #Azul
 
 
 func_valida_dominio()
 {
         # Autor: Renan Pessoa
-        # Versao 1.0
+        # Versao 1.1
 
-        dominio=$1
+        SILENCE=0; #. Verifica se o parâmetro -s foi passado. #
+
+        #. Se for passado algum parâmetro o domínio será o segundo argumento .#
+        if [[ -z `echo "$1" | egrep -w "^\-[a-z]"` ]];then
+            dominio=$1
+        else
+            dominio=$2
+        fi
+
+        #. Verifica os parâmetros passados .#
+        for i in {1..10}; do
+
+            #. Salva o parâmetro enviado .#
+            opt=$1
+            
+            case $opt in
+
+                    #. Se for passado o parâmetro -s .#
+                    -s ) SILENCE=1;;
+            esac
+            shift
+
+        done
 
         #. Transforma qualquer caractere em maiusculo para minusculo .#
         dominio=$(echo $dominio | tr [:upper:] [:lower:]);
 
         #. Caso o usuário digite um espaco em branco .#
-        [[ -z "$dominio" ]] && echo -e "Não faz sentido enviar um espaço em branco..." && return 1;
+        if [[ -z "$dominio" ]];then
+
+            [[ $SILENCE != 1 ]] && echo -e "Não faz sentido enviar um espaço em branco..."
+            return 1;
+        
+        fi
 
         verifica_dominio=$(grep "^$dominio:" /etc/userdomains | grep -v ": nobody$");
                
         #. Se o domínio não existir entra nesse if .#
         if [[ -z "$verifica_dominio" ]];then
 
-            echo -e "O domínio "$Y1""$dominio""$RS" não existe ou não foi encontrado.";
+            [[ $SILENCE != 1 ]] && echo -e "O domínio "$Y1""$dominio""$RS" não existe ou não foi encontrado.";
+
             return 1;
 
         else
@@ -43,20 +71,46 @@ func_valida_dominio()
 func_valida_usuario()
 {
         # Autor: Renan Pessoa
-        # Versao 1.0
+        # Versao 1.1
 
-        usuario=$1
+
+        SILENCE=0; #. Verifica se o parâmetro -s foi ativado. #
+
+        #. Se for passado algum parametro o usuário será o segundo argumento .#
+        if [[ -z `echo "$1" | egrep "[[:punct:]]"` ]];then
+            usuario=$1
+        else
+            usuario=$2
+        fi
+
+        #. Verifica os parâmetros passados .#
+        for i in {1..10}; do
+
+            #. Salva o parâmetro enviado .#
+            opt=$1
+            
+            case $opt in
+
+                    #. Se for passado o parâmetro -s .#
+                    -s ) SILENCE=1;;
+            esac
+            shift
+        done
 
         #. Transforma qualquer caractere em maiusculo para minusculo .#
         usuario=$(echo $usuario | tr [:upper:] [:lower:]);
 
         #. Caso o usuário digite um espaco em branco .#
-        [[ -z "$usuario" ]] && echo -e "Não faz sentido enviar um espaço em branco..." && return 1;
+        if [[ -z "$usuario" ]];then
+
+            [[ $SILENCE != 1 ]] && echo -e "Não faz sentido enviar um espaço em branco..."
+            return 1;
+        fi
          
         #. Se o usuário não existir entra nesse if .#
         if [[ ! -e /var/cpanel/users/$usuario ]];then
 
-            echo -e "O usuário "$Y1""$usuario""$RS" não existe ou não foi encontrado.";
+           [[ $SILENCE != 1 ]] && echo -e "O usuário "$Y1""$usuario""$RS" não existe ou não foi encontrado.";
             return 1;
 
         else
@@ -70,31 +124,56 @@ func_valida_usuario()
 func_valida_revendedor()
 {
         # Autor: Renan Pessoa
-        # Versao 1.0
+        # Versao 1.1
 
-        usuario=$1
+        SILENCE=0; #. Verifica se o parâmetro -s foi ativado. #
+
+        #. Se for passado algum parametro o usuário será o segundo argumento .#
+        if [[ -z `echo "$1" | egrep "[[:punct:]]"` ]];then
+            usuario=$1
+        else
+            usuario=$2
+        fi
+
+        #. Verifica os parâmetros passados .#
+        for i in {1..10}; do
+
+            #. Salva o parâmetro enviado .#
+            opt=$1
+            
+            case $opt in
+
+                    #. Se for passado o parâmetro -s .#
+                    -s | --silence ) SILENCE=1;;
+            esac
+            shift
+        done
 
         #. Transforma qualquer caractere em maiusculo para minusculo .#
         usuario=$(echo $usuario | tr [:upper:] [:lower:]);
 
         #. Caso o usuário digite um espaco em branco .#
-        [[ -z "$usuario" ]] && echo -e "Não faz sentido enviar um espaço em branco..." && return 1;
+        if [[ -z "$usuario" ]];then
+
+            [[ $SILENCE != 1 ]] && echo -e "Não faz sentido enviar um espaço em branco..."
+            return 1;
+        fi
          
         #. Se o usuário não existir entra nesse if .#
         if [[ ! -e /var/cpanel/users/$usuario ]];then
 
-            echo -e "O usuário "$Y1""$usuario""$RS" não existe ou não foi encontrado.";
+          [[ $SILENCE != 1 ]] && echo -e "O usuário "$Y1""$usuario""$RS" não existe ou não foi encontrado.";
             return 1;
         fi
 
         if [[ -z `cut -d: -f2 /etc/trueuserowners | grep -w "$usuario"` ]];then
 
-             echo -e "O usuário "$Y1""$usuario""$RS" existe porém não é um revendedor.";
+            [[ $SILENCE != 1 ]] && echo -e "O usuário "$Y1""$usuario""$RS" existe porém não é um revendedor.";
              return 1;
         fi
 
-            #. Se o usuário digitado for válido é retornado 0 .#
-            return 0;
+        #. Se o usuário digitado for válido é retornado 0 .#
+        return 0;
 }
 
 func_citacao_aleatoria()
@@ -128,7 +207,7 @@ func_citacao_aleatoria()
 func_usuario_tamanho()
 {
         # Autor: Renan Pessoa
-        # Versao 1.0
+        # Versao 1.1
 
         usuario=$1
     
@@ -137,26 +216,26 @@ func_usuario_tamanho()
 
         #. Se não for passado nenhum parâmetro .#
         if [[ -z "$usuario" ]];then
-	       echo -e "Utilização: func_usuario_tamanho usuario";
-	       return 1
+         echo -e "Utilização: func_usuario_tamanho usuario";
+         return 1
         fi
 
         #. Se o diretório da conta não existir .#
         if [[ ! -e /home/$usuario ]];then
-	       echo -e "O usuário informado não existe.";
-	       return 1;
+         echo -e "O usuário informado não existe.";
+         return 1;
         fi 
 
         #. Salva o espaço em disco da conta a partir do cache utilizando a API do WHM .#
-        quota_usuario=$(whmapi1 accountsummary user=$usuario | grep diskused | cut -d":" -f2 | awk '{print $1}' | grep -v none);
+        quota_usuario=$(whmapi1 accountsummary user=$usuario | grep diskused | cut -d":" -f2 | awk '{print $1}' | egrep -v "none|^0");
 
         #. Se o cache da conta existir é exibido .#
         if [[ ! -z $quota_usuario ]]; then
-	
-	       echo -e "$quota_usuario  $usuario" | sed 's/\*//';
+  
+            echo -e "$quota_usuario  $usuario" | sed 's/\*//';
         else 
-	       #. Se não existir cache é calculado o tamanho da conta .#
-	       du -sh /home/$usuario;
+            #. Se não existir cache é calculado o tamanho da conta .#
+            du -sm /home/"$usuario" | awk '{printf "%sM\t%s\n",$1,$2}'
         fi
 
 }
